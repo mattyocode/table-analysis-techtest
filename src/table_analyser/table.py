@@ -6,8 +6,9 @@ class Table():
     def __init__(self, headers, rows):
         self._headers = headers
         self._rows = []
-        for row in rows:
-            self._rows.append(row)
+        if len(rows) > 0:
+            for row in rows:
+                self._rows.append(row)
 
     @property
     def headers(self):
