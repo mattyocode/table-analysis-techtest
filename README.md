@@ -18,4 +18,5 @@ $ poetry run pytest --cov
 ## Run linting with Poetry
 
 $ poetry run flake8 .
+
 $ poetry run black .
