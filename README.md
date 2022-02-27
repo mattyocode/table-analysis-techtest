@@ -1,5 +1,7 @@
 # Python Developer Tech Test
 
+[![Tests](https://github.com/mattyocode/table-analysis-techtest/workflows/Tests/badge.svg)](https://github.com/mattyocode/table-analysis-techtest/actions?workflow=Tests)
+
 ## Requirements
 
 - Python ^3.9
