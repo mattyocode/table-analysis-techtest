@@ -1,7 +1,7 @@
 import click.testing
 import pytest
 
-from table_analysis import console
+from table_analyser import console
 
 
 @pytest.fixture

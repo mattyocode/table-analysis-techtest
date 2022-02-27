@@ -5,12 +5,15 @@ description = "Python developer tech test"
 authors = ["Matt <63904102+mattyocode@users.noreply.github.com>"]
 readme = "README.md"
 packages = [
-    { include = "table_analysis", from = "src" },
+    { include = "table_analyser", from = "src" },
 ]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 click = "^8.0.4"
+flake8 = "^4.0.1"
+black = "^22.1.0"
+isort = "^5.10.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0.1"
