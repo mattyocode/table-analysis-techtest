@@ -212,3 +212,51 @@ def test_throws_error_when_values_are_strings():
     table = Table(test_header, test_row)
     with pytest.raises(TypeError):
         result = table.get_column_total("Amounts")
+
+
+def test_table_returns_rows_equal_to_given_value_in_column_single_match():
+    """It returns a new table object with single row equal to given value \
+        in given column when only one match exists."""
+    test_headers = ["Name", "Amount"]
+    test_rows = [["Tony", 10], ["Paulie", 20]]
+    table = Table(test_headers, test_rows)
+    filtered_table = table.get_rows_equal_to("Amount", 20)
+    assert filtered_table.rows == [["Paulie", 20]]
+
+
+def test_table_returns_rows_equal_to_given_value_in_column_multi_match():
+    """It returns a new table object with rows equal to given value \
+        in given column when multiple rows match value."""
+    test_headers = ["Name", "Amount"]
+    test_rows = [["Tony", 10], ["Paulie", 20], ["Chris", 20]]
+    table = Table(test_headers, test_rows)
+    filtered_table = table.get_rows_equal_to("Amount", 20)
+    assert filtered_table.rows == [["Paulie", 20], ["Chris", 20]]
+
+
+def test_return_empty_table_if_no_rows_match_requirements():
+    """It returns a new empty table object when no rows match given value."""
+    test_headers = ["Name", "Amount"]
+    test_rows = [["Tony", 10], ["Paulie", 20], ["Chris", 20]]
+    table = Table(test_headers, test_rows)
+    filtered_table = table.get_rows_equal_to("Amount", 30)
+    assert filtered_table.rows == []
+
+
+def test_table_returns_rows_between_value_range():
+    """It returns a new table object with rows between to given value \
+        in given column."""
+    test_headers = ["Name", "Amount"]
+    test_rows = [["Tony", 10], ["Paulie", 20], ["Chris", 25]]
+    table = Table(test_headers, test_rows)
+    filtered_table = table.get_rows_between("Amount", 20, 25)
+    assert filtered_table.rows == [["Paulie", 20], ["Chris", 25]]
+
+
+def test_table_returns_empty_table_if_no_rows_between_value_range():
+    """It returns a new empty table object when no rows in given range."""
+    test_headers = ["Name", "Amount"]
+    test_rows = [["Tony", 10], ["Paulie", 20], ["Chris", 25]]
+    table = Table(test_headers, test_rows)
+    filtered_table = table.get_rows_between("Amount", 28, 30)
+    assert filtered_table.rows == []

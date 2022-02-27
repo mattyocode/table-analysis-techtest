@@ -3,6 +3,7 @@ from datetime import datetime
 from multiprocessing.sharedctypes import Value
 import operator
 
+
 class Table:
     def __init__(self, headers, rows):
         self.cellwidths = {}
@@ -62,12 +63,36 @@ class Table:
         """Return table with column converted to datetime object in place."""
         column_index = self._headers.index(column_name)
         for row in self._rows:
-            row[column_index] = datetime.strptime(row[column_index],"%d %b %Y").date()
+            row[column_index] = datetime.strptime(row[column_index], "%d %b %Y").date()
         return self
 
     def get_column_total(self, column_name):
+        """Return total value for numerical column."""
         total = 0
         column_index = self._headers.index(column_name)
         for row in self._rows:
             total += row[column_index]
         return total
+
+    def get_rows_equal_to(self, column_name, value):
+        """Return new table object with rows matching required value. \
+            Using list comprehension here to meet requirements and as \
+            data set is small but implementing binary search would be more
+            performant - O(n) vs. O(log n)."""
+        column_index = self._headers.index(column_name)
+        return Table(
+            self._headers, [row for row in self._rows if row[column_index] == value]
+        )
+
+    def get_rows_between(self, column_name, start_value, end_value):
+        """Return new table object with rows between required values - inclusive. \
+            As above, implementation isn't optimsed."""
+        column_index = self._headers.index(column_name)
+        return Table(
+            self._headers,
+            [
+                row
+                for row in self._rows
+                if row[column_index] >= start_value and row[column_index] <= end_value
+            ],
+        )
