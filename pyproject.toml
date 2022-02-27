@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "bink-python-developer"
+name = "table-analysis-techtest"
 version = "0.1.0"
 description = "Python developer tech test"
 authors = ["Matt <63904102+mattyocode@users.noreply.github.com>"]
