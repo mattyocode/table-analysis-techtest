@@ -60,6 +60,7 @@ def test_table_prints_evenly_spaced_columns_varying_lengths_long_header():
     test_row = [["a", "bb"]]
     table = Table(test_headers, test_row)
     assert str(table) == "Col 1|Col Two\n-------------\na    |bb     "
+
     row_string = str(table).split("\n")[-1]
     first_cell, second_cell = row_string.split("|")
     assert len(first_cell) == len(test_headers[0])
@@ -73,6 +74,7 @@ def test_table_prints_evenly_spaced_columns_varying_lengths_long_row_cell():
     test_row = [["long val", "longer value"]]
     table = Table(test_headers, test_row)
     assert str(table) == "Col 1   |Col 2       \n---------------------\nlong val|longer value"
+    
     header_string = str(table).split("\n")[0]
     first_header, second_header = header_string.split("|")
     assert len(first_header) == len(test_row[0][0])
@@ -80,6 +82,8 @@ def test_table_prints_evenly_spaced_columns_varying_lengths_long_row_cell():
 
 
 def test_table_prints_with_empty_input_arrays():
+    """It returns `No table data.` message when empty arrays supplied \
+        for headers and rows."""
     test_headers = []
     test_row = []
     table = Table(test_headers, test_row)
@@ -87,6 +91,7 @@ def test_table_prints_with_empty_input_arrays():
 
 
 def test_table_prints_with_empty_headers_array():
+    """It returns row data only when empty array supplied for headers."""
     test_headers = []
     test_row = [["a", "b"]]
     table = Table(test_headers, test_row)
@@ -94,7 +99,46 @@ def test_table_prints_with_empty_headers_array():
 
 
 def test_table_prints_with_empty_rows_array():
+    """It returns header data only when empty array supplied for rows."""
     test_headers = ["Col 1", "Col 2"]
     test_row = []
     table = Table(test_headers, test_row)
     assert str(table) == "Col 1|Col 2\n-----------"
+
+
+def test_table_returns_new_table_sorted_by_integer_column_value():
+    """It returns new table object sorted by integers (ascending) in given column."""
+    test_headers = ["Col 1", "Col 2"]
+    test_rows = [[5, 4], [1, 6]]
+    table = Table(test_headers, test_rows)
+    sorted_table = table.sort_by("Col 1")
+    assert sorted_table.rows == [[1, 6], [5, 4]]
+
+
+def test_table_returns_new_table_with_same_order_when_integers_already_sorted():
+    """It returns new table object unchanged if given column of integers is already sorted."""
+    test_headers = ["Col 1", "Col 2"]
+    test_rows = [[5, 4], [1, 6]]
+    table = Table(test_headers, test_rows)
+    sorted_table = table.sort_by("Col 2")
+    assert sorted_table.rows == [[5, 4], [1, 6]]
+
+
+def test_table_returns_new_table_sorted_by_string_column_value():
+    """It returns new table object sorted by string (ascending) in given column."""
+    test_headers = ["Col 1", "Col 2"]
+    test_rows = [["x", "y"], ["a", "b"]]
+    table = Table(test_headers, test_rows)
+    sorted_table = table.sort_by("Col 1")
+    assert sorted_table.rows == [["a", "b"], ["x", "y"]]
+
+
+def test_table_returns_new_table_with_same_order_when_strings_already_sorted():
+    """It returns new table object unchanged if given column of strings is already sorted."""
+    test_headers = ["Col 1", "Col 2"]
+    test_rows = [["a", "b"], ["x", "y"]]
+    table = Table(test_headers, test_rows)
+    sorted_table = table.sort_by("Col 1")
+    assert sorted_table.rows == [["a", "b"], ["x", "y"]]
+
+
