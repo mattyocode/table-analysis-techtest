@@ -1,7 +1,6 @@
 """Table object."""
-from datetime import datetime
-from multiprocessing.sharedctypes import Value
 import operator
+from datetime import datetime
 
 
 class Table:

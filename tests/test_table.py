@@ -1,7 +1,6 @@
-from typing import Type
-import pytest
-
 import datetime
+
+import pytest
 
 from table_analyser.table import Table
 
@@ -173,7 +172,7 @@ def test_throws_error_if_column_values_are_not_of_type_string():
     test_header = ["Numeric value"]
     test_row = [[1]]
     table = Table(test_header, test_row)
-    with pytest.raises(TypeError) as e:
+    with pytest.raises(TypeError):
         table.convert_column_to_datetime("Numeric value")
 
 
@@ -211,7 +210,7 @@ def test_throws_error_when_values_are_strings():
     test_row = [["One"], ["Two"], ["Three"]]
     table = Table(test_header, test_row)
     with pytest.raises(TypeError):
-        result = table.get_column_total("Amounts")
+        table.get_column_total("Amounts")
 
 
 def test_table_returns_rows_equal_to_given_value_in_column_single_match():
