@@ -2,6 +2,8 @@
 
 [![Tests](https://github.com/mattyocode/table-analysis-techtest/workflows/Tests/badge.svg)](https://github.com/mattyocode/table-analysis-techtest/actions?workflow=Tests)
 
+[![Codecov](https://codecov.io/gh/mattyocode/table-analysis-techtest/branch/main/graph/badge.svg)](https://codecov.io/gh/mattyocode/table-analysis-techtest)
+
 ## Requirements
 
 - Python ^3.9
@@ -15,10 +17,10 @@ Then run `poetry install` to install dependencies.
 
 ## Run tests with Poetry
 
-$ poetry run pytest --cov
+`$ poetry run pytest --cov`
 
 ## Run linting with Poetry
 
-$ poetry run flake8 .
+`$ poetry run flake8 .`
 
-$ poetry run black .
+`$ poetry run black .`
