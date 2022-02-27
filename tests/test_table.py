@@ -1,4 +1,7 @@
+from typing import Type
 import pytest
+
+import datetime
 
 from table_analyser.table import Table
 
@@ -73,8 +76,11 @@ def test_table_prints_evenly_spaced_columns_varying_lengths_long_row_cell():
     test_headers = ["Col 1", "Col 2"]
     test_row = [["long val", "longer value"]]
     table = Table(test_headers, test_row)
-    assert str(table) == "Col 1   |Col 2       \n---------------------\nlong val|longer value"
-    
+    assert (
+        str(table)
+        == "Col 1   |Col 2       \n---------------------\nlong val|longer value"
+    )
+
     header_string = str(table).split("\n")[0]
     first_header, second_header = header_string.split("|")
     assert len(first_header) == len(test_row[0][0])
@@ -142,3 +148,67 @@ def test_table_returns_new_table_with_same_order_when_strings_already_sorted():
     assert sorted_table.rows == [["a", "b"], ["x", "y"]]
 
 
+def test_convert_date_string_to_datetime_object():
+    """It returns table with selected column converted to datetime.date object."""
+    test_header = ["Date field"]
+    test_row = [["28 Apr 2018"]]
+    table = Table(test_header, test_row)
+    table.convert_column_to_datetime("Date field")
+    assert type(table.rows[0][0]) == datetime.date
+    assert table.rows[0][0] == datetime.date(2018, 4, 28)
+
+
+def test_convert_date_string_to_datetime_object_multi_row_multi_column():
+    """It returns table with selected column converted to datetime.date object."""
+    test_header = ["Name", "Date field"]
+    test_row = [["Tony", "28 Apr 2018"], ["Paulie", "5 Nov 2012"]]
+    table = Table(test_header, test_row)
+    table.convert_column_to_datetime("Date field")
+    assert table.rows[0][1] == datetime.date(2018, 4, 28)
+    assert table.rows[1][1] == datetime.date(2012, 11, 5)
+
+
+def test_throws_error_if_column_values_are_not_of_type_string():
+    """It throws TypeError if provided with non-string input."""
+    test_header = ["Numeric value"]
+    test_row = [[1]]
+    table = Table(test_header, test_row)
+    with pytest.raises(TypeError) as e:
+        table.convert_column_to_datetime("Numeric value")
+
+
+def test_throws_error_if_date_string_incorrectly_formatted():
+    """It throws ValueError if provided with incorrectly formatted date string input."""
+    test_header = ["Date field"]
+    test_row = [["Apr 28 2018"]]
+    table = Table(test_header, test_row)
+    with pytest.raises(ValueError):
+        table.convert_column_to_datetime("Date field")
+
+
+def test_get_integer_column_total_value():
+    """It returns total value of column of integers."""
+    test_header = ["Amounts"]
+    test_row = [[1], [2], [3]]
+    table = Table(test_header, test_row)
+    result = table.get_column_total("Amounts")
+    assert result == 1 + 2 + 3
+
+
+def test_get_float_column_total_value():
+    """It returns total value of column of floats."""
+    test_header = ["Amounts"]
+    test_row = [[1.2], [2.4], [3.3]]
+    table = Table(test_header, test_row)
+    result = table.get_column_total("Amounts")
+    assert result == 1.2 + 2.4 + 3.3
+
+
+def test_throws_error_when_values_are_strings():
+    """It throws error when attempting to return total value \
+        of column of strings."""
+    test_header = ["Amounts"]
+    test_row = [["One"], ["Two"], ["Three"]]
+    table = Table(test_header, test_row)
+    with pytest.raises(TypeError):
+        result = table.get_column_total("Amounts")
