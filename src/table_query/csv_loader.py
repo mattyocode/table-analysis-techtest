@@ -1,8 +1,8 @@
-"""CSVLoader object."""
+"""CSVLoader class."""
 from csv import reader
-import enum
 
-class CSVLoader():
+
+class CSVLoader:
     def __init__(self, file_path):
         self.file_path = file_path
         self._headers = []
@@ -34,7 +34,4 @@ class CSVLoader():
                 self._rows.append(row)
 
     def data(self):
-        return {
-            "headers": self._headers, 
-            "rows": self._rows
-        }
+        return {"headers": self._headers, "rows": self._rows}
