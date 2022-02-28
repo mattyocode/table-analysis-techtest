@@ -5,7 +5,7 @@ description = "Python developer tech test"
 authors = ["Matt <63904102+mattyocode@users.noreply.github.com>"]
 readme = "README.md"
 packages = [
-    { include = "table_analyser", from = "src" },
+    { include = "table_query", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -21,7 +21,7 @@ coverage = {version = "^6.3.2", extras = ["toml"]}
 pytest-cov = "^3.0.0"
 
 [tool.poetry.scripts]
-table-analysis = "table_analyser.console:main"
+table-query = "table_query.console:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -32,7 +32,7 @@ source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
-source = ["table_analyser"]
+source = ["table_query"]
 
 [tool.coverage.report]
 fail_under = 95

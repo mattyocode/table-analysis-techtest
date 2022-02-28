@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from table_analyser.table import Table
+from table_query.table import Table
 
 
 def test_initalise_table_with_test_data():
