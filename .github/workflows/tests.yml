@@ -16,10 +16,8 @@ jobs:
           poetry-version: 1.1.11
 
       - run: poetry install
-      - run: poetry run pytest --cov
-      - run: poetry run flake8 .
-      - run: poetry run black .
-      - run: poetry run isort .
+      - run: pip install nox==2020.8.22
+      - run: nox
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2

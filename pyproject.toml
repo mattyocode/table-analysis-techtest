@@ -19,6 +19,10 @@ isort = "^5.10.1"
 pytest = "^7.0.1"
 coverage = {version = "^6.3.2", extras = ["toml"]}
 pytest-cov = "^3.0.0"
+flake8-bandit = "^2.1.2"
+flake8-black = "^0.3.2"
+flake8-bugbear = "^22.1.11"
+flake8-import-order = "^0.18.1"
 
 [tool.poetry.scripts]
 table-query = "table_query.console:main"
