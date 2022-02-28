@@ -38,4 +38,4 @@ def test_raises_error_when_file_cannot_be_found():
     """It raises .... error when file cannot be found.
     Uses real file. Is skipped for CI/CD."""
     with pytest.raises(FileNotFoundError):
-        loader = CSVLoader("fixtures/fake-filename.csv")
+        CSVLoader("fixtures/fake-filename.csv")
