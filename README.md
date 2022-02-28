@@ -2,7 +2,7 @@
 
 [![Tests](https://github.com/mattyocode/table-analysis-techtest/workflows/Tests/badge.svg)](https://github.com/mattyocode/table-analysis-techtest/actions?workflow=Tests)
 
-[![Codecov](https://codecov.io/gh/mattyocode/table-analysis-techtest/branch/main/graph/badge.svg)](https://codecov.io/gh/mattyocode/table-analysis-techtest)
+[![codecov](https://codecov.io/gh/mattyocode/table-analysis-techtest/branch/main/graph/badge.svg?token=VM1SWZJRFW)](https://codecov.io/gh/mattyocode/table-analysis-techtest)
 
 ## Requirements
 
