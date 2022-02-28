@@ -1,4 +1,5 @@
 import click.testing
+
 import pytest
 
 from table_query import console

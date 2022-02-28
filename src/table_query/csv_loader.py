@@ -19,19 +19,15 @@ class CSVLoader:
         """Return table rows."""
         return self._rows
 
-    def load_csv(self):
+    def load_data(self):
         with open(self.file_path) as csv_file:
             csv_reader = reader(csv_file)
-        return csv_reader
 
-    def load_data(self):
-        csv_reader = self.load_csv()
-
-        for i, row in enumerate(csv_reader):
-            if i == 0:
-                self._headers = row
-            else:
-                self._rows.append(row)
+            for i, row in enumerate(csv_reader):
+                if i == 0:
+                    self._headers = row
+                else:
+                    self._rows.append(row)
 
     def data(self):
         return {"headers": self._headers, "rows": self._rows}
