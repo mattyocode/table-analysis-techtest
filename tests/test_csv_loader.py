@@ -30,3 +30,8 @@ def test_returns_headers_and_rows_as_object():
     with patch("builtins.open", mocked_open):
         loader = CSVLoader("test/file/path.csv")
     assert loader.data() == {"headers": ["Col 1", "Col 2"], "rows": [["one", "two"]]}
+
+@pytest.mark
+def test_raises_error_when_file_cannot_be_found():
+    """It raises .... error when file cannot be found."""
+
