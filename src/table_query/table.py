@@ -81,10 +81,10 @@ class Table:
         return total
 
     def get_rows_equal_to(self, column_name, value):
-        """Return new table object with rows matching required value. \
-            Using list comprehension here to meet requirements and as \
-            data set is small but implementing binary search would be more
-            performant - O(n) vs. O(log n)."""
+        """Return new table object with rows matching value. \
+            Using list comprehension here to meet requirements \
+            and as data set is small but implementing binary \
+            search would be more performant."""
         column_index = self._headers.index(column_name)
         return Table(
             self._headers, [row for row in self._rows if row[column_index] == value]
