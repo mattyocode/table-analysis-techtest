@@ -152,7 +152,7 @@ def test_convert_date_string_to_datetime_object():
     test_header = ["Date field"]
     test_row = [["28 Apr 2018"]]
     table = Table(test_header, test_row)
-    table.convert_column_to_datetime("Date field")
+    table.string_column_to_datetime("Date field")
     assert type(table.rows[0][0]) == datetime.date
     assert table.rows[0][0] == datetime.date(2018, 4, 28)
 
@@ -162,9 +162,32 @@ def test_convert_date_string_to_datetime_object_multi_row_multi_column():
     test_header = ["Name", "Date field"]
     test_row = [["Tony", "28 Apr 2018"], ["Paulie", "5 Nov 2012"]]
     table = Table(test_header, test_row)
-    table.convert_column_to_datetime("Date field")
+    table.string_column_to_datetime("Date field")
     assert table.rows[0][1] == datetime.date(2018, 4, 28)
     assert table.rows[1][1] == datetime.date(2012, 11, 5)
+
+
+def test_convert_datetime_object_to_date_string():
+    """It returns table with selected column as date strings with DD/MM/YYYY format."""
+    datetime_object = datetime.date(2018, 4, 28)
+    test_header = ["Date field"]
+    test_row = [[datetime_object]]
+    table = Table(test_header, test_row)
+    table.datetime_column_to_string("Date field")
+    assert type(table.rows[0][0]) == str
+    assert table.rows[0][0] == "28/04/2018"
+
+
+def test_convert_datetime_object_to_date_string_multi_row_multi_column():
+    """It returns table with selected column as date strings, other columns remain the same."""
+    datetime_object_1 = datetime.date(2018, 4, 28)
+    datetime_object_2 = datetime.date(2012, 11, 5)
+    test_header = ["Name", "Date field"]
+    test_row = [["Tony", datetime_object_1], ["Paulie", datetime_object_2]]
+    table = Table(test_header, test_row)
+    table.datetime_column_to_string("Date field")
+    assert table.rows[0][1] == "28/04/2018"
+    assert table.rows[1][1] == "05/11/2012"
 
 
 def test_throws_error_if_column_values_are_not_of_type_string():
@@ -173,7 +196,7 @@ def test_throws_error_if_column_values_are_not_of_type_string():
     test_row = [[1]]
     table = Table(test_header, test_row)
     with pytest.raises(TypeError):
-        table.convert_column_to_datetime("Numeric value")
+        table.string_column_to_datetime("Numeric value")
 
 
 def test_throws_error_if_date_string_incorrectly_formatted():
@@ -182,7 +205,7 @@ def test_throws_error_if_date_string_incorrectly_formatted():
     test_row = [["Apr 28 2018"]]
     table = Table(test_header, test_row)
     with pytest.raises(ValueError):
-        table.convert_column_to_datetime("Date field")
+        table.string_column_to_datetime("Date field")
 
 
 def test_get_integer_column_total_value():

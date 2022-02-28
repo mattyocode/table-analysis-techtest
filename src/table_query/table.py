@@ -58,11 +58,18 @@ class Table:
             self.headers, sorted(self.rows, key=operator.itemgetter(column_index))
         )
 
-    def convert_column_to_datetime(self, column_name):
+    def string_column_to_datetime(self, column_name):
         """Return table with column converted to datetime object in place."""
         column_index = self._headers.index(column_name)
         for row in self._rows:
             row[column_index] = datetime.strptime(row[column_index], "%d %b %Y").date()
+        return self
+
+    def datetime_column_to_string(self, column_name):
+        """Return table with column converted string format DD/MM/YYYY."""
+        column_index = self._headers.index(column_name)
+        for row in self._rows:
+            row[column_index] = datetime.strftime(row[column_index], "%d/%m/%Y")
         return self
 
     def get_column_total(self, column_name):
