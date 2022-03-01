@@ -1,8 +1,11 @@
-"""Table object."""
 from datetime import datetime
 
 
 class Table:
+    """Class to handle tabular data.
+    Creates dict of column widths on initialization for better printing.
+    """
+
     def __init__(self, headers, rows):
         self.cellwidths = {}
         self._headers = headers
@@ -36,7 +39,7 @@ class Table:
         return self._excluded_from_print
 
     def __str__(self):
-        """It prints each column to length of longest value in column, \
+        """It prints each column neatly to length of longest value in column, \
             i.e. column widths can differ from each other."""
         if len(self._headers) == 0 and len(self._rows) == 0:
             return "No table data."

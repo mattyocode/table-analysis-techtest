@@ -73,11 +73,3 @@ def test_get_rows_in_date_range():
         ["d", 4, "05/05/2005"],
         ["e", 5, "31/08/2007"],
     ]
-
-
-# def test_get_all_data_where_value_equals_amount():
-#     """It returns table object with rows equal to stated value. """
-#     test_rows_with_double = TEST_TABLE_ROWS + ["y", 5, 0]
-#     table = Table(TEST_TABLE_HEADERS,test_rows_with_double)
-#     result_table = QueryHelper(table).get_matches_where("Col 2", 5)
-#     assert result_table.headers == TEST_TABLE_HEADERS

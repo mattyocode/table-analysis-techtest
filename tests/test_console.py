@@ -42,6 +42,7 @@ def test_csv_file():
 
 @pytest.mark.e2e
 def test_main_succeeds(runner):
+    """It exits with status code of zero."""
     result = runner.invoke(console.main)
     assert result.exit_code == 0
 

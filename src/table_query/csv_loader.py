@@ -1,8 +1,10 @@
-"""CSVLoader class."""
+"""Load CSV data into object."""
 from csv import reader
 
 
 class CSVLoader:
+    """Class to handle reading csv data from file."""
+
     def __init__(self, file_path):
         self.file_path = file_path
         self._headers = []
@@ -20,6 +22,7 @@ class CSVLoader:
         return self._rows
 
     def load_data(self):
+        """Load data from csv file into instance attributes."""
         with open(self.file_path) as csv_file:
             csv_reader = reader(csv_file)
 
@@ -30,4 +33,5 @@ class CSVLoader:
                     self._rows.append(row)
 
     def data(self):
+        """Return dict with headers and row data."""
         return {"headers": self._headers, "rows": self._rows}
