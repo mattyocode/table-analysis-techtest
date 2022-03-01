@@ -111,14 +111,6 @@ def test_table_prints_with_empty_rows_array():
     assert str(table) == "Col 1|Col 2\n-----------"
 
 
-def test_table_prints_with_empty_rows_array():
-    """It returns header data only when empty array supplied for rows."""
-    test_headers = ["Col 1", "Col 2"]
-    test_row = []
-    table = Table(test_headers, test_row)
-    assert str(table) == "Col 1|Col 2\n-----------"
-
-
 def test_get_excluded_column_indexes():
     """It returns list of indexes of excluded columns."""
     test_headers = ["Col 1", "Col 2"]

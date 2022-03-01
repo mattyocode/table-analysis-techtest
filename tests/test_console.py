@@ -122,7 +122,7 @@ def test_main_calls_mast_data_in_date_range_when_flag_passed(
     mock_queryhelper,
 ) -> None:
     """It passes default args to QueryHelper instance."""
-    result = runner.invoke(console.main, ["--file-path=test.csv", "--start_date_range"])
+    result = runner.invoke(console.main, ["--file-path=test.csv", "--start-date-range"])
     assert result.exit_code == 0
     instance = mock_queryhelper.return_value
     assert instance.dates_between.call_args == call(
