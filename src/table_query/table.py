@@ -1,5 +1,4 @@
 """Table object."""
-import operator
 from datetime import datetime
 
 
@@ -71,10 +70,10 @@ class Table:
             self.cellwidths[i] = max(current_column_cellwidth, len(str(cell)))
 
     def sort_by(self, column_name):
-        """Return new table sorted by given column."""
+        """Return new table sorted by given column of float or int."""
         column_index = self._headers.index(column_name)
         return Table(
-            self.headers, sorted(self.rows, key=operator.itemgetter(column_index))
+            self.headers, sorted(self.rows, key=lambda x: float(x[column_index]))
         )
 
     def string_column_to_datetime(self, column_name):
