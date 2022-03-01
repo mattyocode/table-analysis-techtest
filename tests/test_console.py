@@ -59,15 +59,27 @@ def test_main_calls_csvloader_with_specified_path(
     mock_table.assert_called()
 
 
-
 def test_main_calls_smallest_by_value_when_flag_passed(
     runner,
     test_csv_file,
     mock_queryhelper,
 ) -> None:
-    """It passes file path to csv loader instance."""
+    """It passes default args to QueryHelper instance."""
     result = runner.invoke(console.main, ["--file-path=test.csv", "--smallest-values"])
     assert result.exit_code == 0
     instance = mock_queryhelper.return_value
-    assert instance.smallest.call_args == call(5, 'current rent')
+    assert instance.smallest.call_args == call(5, 'Current Rent')
+    assert "Smallest 5 values of Current Rent in ascending order" in result.output
 
+
+def test_main_calls_masts_data_equals_when_flag_passed(
+    runner,
+    test_csv_file,
+    mock_table,
+) -> None:
+    """It passes file path to csv loader instance."""
+    result = runner.invoke(console.main, ["--file-path=test.csv", "--lease-years-equal"])
+    assert result.exit_code == 0
+    instance = mock_table.return_value
+    assert instance.get_rows_equal_to.call_args == call("Lease Years", 25)
+    assert "Mast data where Lease Years is equal to 25" in result.output
