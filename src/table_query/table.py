@@ -73,7 +73,7 @@ class Table:
             self.cellwidths[i] = max(current_column_cellwidth, len(str(cell)))
 
     def sort_by(self, column_name):
-        """Return new table sorted by given column."""
+        """Return new table sorted by given column of float or int."""
         column_index = self._headers.index(column_name)
         return Table(
             self.headers, sorted(self.rows, key=lambda x: float(x[column_index]))
