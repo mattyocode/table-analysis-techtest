@@ -8,6 +8,7 @@ class Table:
         self.cellwidths = {}
         self._headers = headers
         self._rows = []
+        self._excluded_from_print = []
         self.set_column_cell_widths(headers)
         if len(rows) > 0:
             for row in rows:
@@ -24,6 +25,17 @@ class Table:
         """Return table rows."""
         return self._rows
 
+    @property
+    def excluded_from_print(self):
+        """Return columns exluded from printing."""
+        return self._excluded_from_print
+
+    def exclude_cols_from_print(self, columns):
+        for column_name in columns:
+            column_index = self._headers.index(column_name)
+            self._excluded_from_print.append(column_index)
+        return self._excluded_from_print
+
     def __str__(self):
         """It prints each column to length of longest value in column, \
             i.e. column widths can differ from each other."""
@@ -35,13 +47,20 @@ class Table:
                 [
                     f"{header:{self.cellwidths[i]}}"
                     for i, header in enumerate(self._headers)
+                    if i not in self._excluded_from_print
                 ]
             )
             formatted.append(formatted_headers)
             formatted.append("-" * len(formatted_headers))
         for row in self.rows:
             formatted.append(
-                "|".join([f"{cell:{self.cellwidths[i]}}" for i, cell in enumerate(row)])
+                "|".join(
+                    [
+                        f"{cell:{self.cellwidths[i]}}"
+                        for i, cell in enumerate(row)
+                        if i not in self._excluded_from_print
+                    ]
+                )
             )
         return "\n".join(formatted)
 

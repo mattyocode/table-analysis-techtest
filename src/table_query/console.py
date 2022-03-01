@@ -14,25 +14,30 @@ def file_to_table(file_path):
 def smallest_by_value(table, amount, column_name):
     current_rent_smallest_5 = QueryHelper(table).smallest(amount, column_name)
 
-    click.echo(f"Smallest {amount} values of {column_name} in ascending order\n")
+    click.secho(
+        f"Smallest {amount} values of {column_name} in ascending order\n", fg="green"
+    )
     click.echo(current_rent_smallest_5)
+    click.echo("\n")
 
 
 def masts_data_equals(table, value, column_name):
     filtered_table = table.get_rows_equal_to(column_name, value)
     total_rent = filtered_table.get_column_total("Current Rent")
 
-    click.echo(f"Mast data where {column_name} is equal to {value}\n")
+    click.secho(f"Mast data where {column_name} is equal to {value}\n", fg="green")
     click.echo(filtered_table)
     click.echo(f"Total rent: £{total_rent}")
+    click.echo("\n")
 
 
 def mast_count_dict(table, column_name):
     frequency_dict = QueryHelper(table).frequency(column_name)
 
-    click.echo("Count of masts by tenant\n")
+    click.secho("Count of masts by tenant\n", fg="green")
     for k, v in frequency_dict.items():
-        click.echo(f"{k}: {v} masts\n")
+        click.echo(f"{k}: {v} masts")
+    click.echo("\n")
 
 
 def mast_data_in_date_range(table, column_name, start_date, end_date):
@@ -40,10 +45,12 @@ def mast_data_in_date_range(table, column_name, start_date, end_date):
         start_date, end_date, column_name
     )
 
-    click.echo(
-        f"Mast data where {column_name} is between {start_date} and {end_date}\n"
+    click.secho(
+        f"Mast data where {column_name} is between {start_date} and {end_date}\n",
+        fg="green",
     )
     click.echo(date_range_table)
+    click.echo("\n")
 
 
 @click.command()
@@ -99,4 +106,4 @@ def main(
             end_date="31 Aug 2007",
         )
 
-    click.echo("Report finished!")
+    click.secho("Report finished!", fg="green")
