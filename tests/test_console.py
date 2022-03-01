@@ -85,3 +85,18 @@ def test_main_calls_masts_data_equals_when_flag_passed(
     instance = mock_table.return_value
     assert instance.get_rows_equal_to.call_args == call("Lease Years", 25)
     assert "Mast data where Lease Years is equal to 25" in result.output
+
+
+def test_main_calls_tenant_mast_count_when_flag_passed(
+    runner,
+    test_csv_file,
+    mock_queryhelper,
+) -> None:
+    """It passes file path to csv loader instance."""
+    result = runner.invoke(
+        console.main, ["--file-path=test.csv", "--tenant-mast-count"]
+    )
+    assert result.exit_code == 0
+    instance = mock_queryhelper.return_value
+    assert instance.frequency.call_args == call("Tenant Name")
+    assert "Count of masts by tenant" in result.output
