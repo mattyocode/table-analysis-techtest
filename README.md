@@ -9,18 +9,69 @@
 - Python ^3.9
 - Poetry ^1.1
 
-## Install dependencies with Poetry
+## How to install
 
-To install Poetry itself see Poetry [documentation](https://python-poetry.org/docs/).
+1. Clone from Github
 
-Then run `poetry install` to install dependencies.
+   ```bash
+   cd projects
+   git clone <repo-tag>
+   ```
 
-## Run tests with Poetry
+2. Install dependencies
 
-`$ poetry run pytest --cov`
+   Make sure [Poetry is installed](https://python-poetry.org/docs/) and run `poetry install` to install project dependencies.
 
-## Run linting with Poetry
+3. Run tests with Pytest
 
-`$ poetry run flake8 .`
+   ```bash
+   poetry run pytest --cov
+   ```
 
-`$ poetry run black .`
+4. Run linting with Flake8
+
+   ```bash
+   poetry run flake8 .
+   ```
+
+## How to run table queries
+
+- Once Poetry has installed dependencies, run
+
+  ```bash
+  poetry run table-query
+  ```
+
+  to run all four of the required reports.
+
+- To run function that returns the 'first 5 items from the resultant list and output to the console', add `--smallest-values` flag, e.g.
+
+  ```bash
+  poetry run table-query --smallest-values
+  ```
+
+- To run function that returns the 'new list of mast data with “Lease Years” = 25 years' and 'total rent', add `--lease-years-equal` flag, e.g.
+
+  ```bash
+  poetry run table-query --lease-years-equal
+  ```
+
+- To run function that returns 'a dictionary containing tenant name and a count of masts for each tenant', add `--tenant-mast-count` flag, e.g.
+
+  ```bash
+  poetry run table-query --tenant-mast-count
+  ```
+
+- To run function that returns 'a dictionary containing tenant name and a count of masts for each tenant', add `--start-date-range` flag, e.g.
+
+  ```bash
+  poetry run table-query --start-date-range
+  ```
+
+- A `--file-path` flag can also be passed in, although is not necessary as the default is set to 'fixtures/Python Developer Test Dataset.csv' where the test data provided is located.
+
+## Example output
+
+When running `poetry run table-query` (i.e. without any flags), the output is as follows:
+
+![Terminal output screengrab](https://github.com/mattyocode/images/blob/main/table-analysis-techtest/table-analysis-output-e.png)
