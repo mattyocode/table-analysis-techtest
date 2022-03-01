@@ -1,4 +1,5 @@
 import os
+from unittest.mock import call
 
 import click.testing
 
@@ -31,7 +32,7 @@ def mock_queryhelper(mocker):
     return mocker.patch("table_query.console.QueryHelper")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def test_csv_file():
     """It returns an empty TextIO file with csv extension."""
     with open("test.csv", "w") as f:
@@ -49,11 +50,24 @@ def test_main_calls_csvloader_with_specified_path(
     runner,
     mock_csvloader,
     test_csv_file,
-    # mock_table,
-    # mock_queryhelper,
+    mock_table,
 ) -> None:
     """It passes file path to csv loader instance."""
     result = runner.invoke(console.main, ["--file-path=test.csv"])
-    print(result.__dict__)
     assert result.exit_code == 0
     mock_csvloader.assert_called_with("test.csv")
+    mock_table.assert_called()
+
+
+
+def test_main_calls_smallest_by_value_when_flag_passed(
+    runner,
+    test_csv_file,
+    mock_queryhelper,
+) -> None:
+    """It passes file path to csv loader instance."""
+    result = runner.invoke(console.main, ["--file-path=test.csv", "--smallest-values"])
+    assert result.exit_code == 0
+    instance = mock_queryhelper.return_value
+    assert instance.smallest.call_args == call(5, 'current rent')
+
