@@ -75,3 +75,15 @@
 When running `poetry run table-query` (i.e. without any flags), the output is as follows:
 
 ![Terminal output screengrab](https://github.com/mattyocode/images/blob/main/table-analysis-techtest/table-analysis-output-e.png)
+
+## Notes
+
+This was really fun to do, and I hope my solution is clear and as expected.
+
+My main focus has been to create a reusable Table class that can manipulate and return tabular data (as needed). More complex operations on table data are undertaken by the QueryHelper class, which is directed at satisfying the output requirements of the task.
+
+I've included list comprehension in the `__str__` method, and two filtering methods of the Table class. The filtering methods are therefore not optimised but they could be refactored to use sorted input and binary search if optimisation was needed.
+
+Test coverage is at 100%, although there are edge cases that aren't covered. There are also occasions where methods expect a certain type and currently the happy path is assumed – these could be covered with type checking and validation, but I've assumed (hopefully correctly) that's beyond the scope of this task.
+
+:grin:
