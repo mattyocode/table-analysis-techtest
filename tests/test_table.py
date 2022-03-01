@@ -14,15 +14,6 @@ def test_initalise_table_with_test_data():
     assert table.rows == test_row
 
 
-def test_initalise_table_with_multi_column_test_data():
-    """It returns table object with test data for two columns."""
-    test_headers = ["Col 1", "Col 2"]
-    test_row = [["a", "b"]]
-    table = Table(test_headers, test_row)
-    assert table.headers == test_headers
-    assert table.rows == test_row
-
-
 def test_initalise_table_with_multi_column_multi_row_test_data():
     """It returns table object with test data for two columns with two rows."""
     test_headers = ["Col 1", "Col 2"]
@@ -112,7 +103,8 @@ def test_table_prints_with_empty_rows_array():
 
 
 def test_get_excluded_column_indexes():
-    """It returns list of indexes of excluded columns."""
+    """It returns list of indexes of excluded columns
+    after adding column to exclude."""
     test_headers = ["Col 1", "Col 2"]
     test_row = []
     table = Table(test_headers, test_row)
@@ -149,35 +141,34 @@ def test_table_returns_new_table_with_same_order_when_integers_already_sorted():
     assert sorted_table.rows == [[5, 4], [1, 6]]
 
 
-def test_table_returns_new_table_sorted_by_string_column_value():
+def test_table_returns_new_table_sorted_by_numerical_string_column_value():
     """It returns new table object sorted by string (ascending) in given column."""
     test_headers = ["Col 1", "Col 2"]
-    test_rows = [["x", "y"], ["a", "b"]]
+    test_rows = [["10", "20"], ["2", "5"]]
     table = Table(test_headers, test_rows)
     sorted_table = table.sort_by("Col 1")
-    assert sorted_table.rows == [["a", "b"], ["x", "y"]]
+    assert sorted_table.rows == [["2", "5"], ["10", "20"]]
 
 
-def test_table_returns_new_table_with_same_order_when_strings_already_sorted():
-    """It returns new table object unchanged if given column of strings is already sorted."""
+def test_table_sorts_multi_digit_numbers_as_strings():
+    """It returns new table object with numbers in order, sorted numerically."""
+    test_headers = ["Col 1", "Col 2"]
+    test_rows = [["5", "400"], ["10", "6"]]
+    table = Table(test_headers, test_rows)
+    sorted_table = table.sort_by("Col 2")
+    assert sorted_table.rows == [["10", "6"], ["5", "400"]]
+
+
+def test_table_raises_valueerror_if_sort_by_called_on_non_numerical_string():
+    """It raises ValueError if string cannot be converted to float."""
     test_headers = ["Col 1", "Col 2"]
     test_rows = [["a", "b"], ["x", "y"]]
     table = Table(test_headers, test_rows)
-    sorted_table = table.sort_by("Col 1")
-    assert sorted_table.rows == [["a", "b"], ["x", "y"]]
+    with pytest.raises(ValueError):
+        table.sort_by("Col 1")
 
 
 def test_convert_date_string_to_datetime_object():
-    """It returns table with selected column converted to datetime.date object."""
-    test_header = ["Date field"]
-    test_row = [["28 Apr 2018"]]
-    table = Table(test_header, test_row)
-    table.string_column_to_datetime("Date field")
-    assert type(table.rows[0][0]) == datetime.date
-    assert table.rows[0][0] == datetime.date(2018, 4, 28)
-
-
-def test_convert_date_string_to_datetime_object_multi_row_multi_column():
     """It returns table with selected column converted to datetime.date object."""
     test_header = ["Name", "Date field"]
     test_row = [["Tony", "28 Apr 2018"], ["Paulie", "5 Nov 2012"]]
@@ -188,18 +179,7 @@ def test_convert_date_string_to_datetime_object_multi_row_multi_column():
 
 
 def test_convert_datetime_object_to_date_string():
-    """It returns table with selected column as date strings with DD/MM/YYYY format."""
-    datetime_object = datetime.date(2018, 4, 28)
-    test_header = ["Date field"]
-    test_row = [[datetime_object]]
-    table = Table(test_header, test_row)
-    table.datetime_column_to_string("Date field")
-    assert type(table.rows[0][0]) == str
-    assert table.rows[0][0] == "28/04/2018"
-
-
-def test_convert_datetime_object_to_date_string_multi_row_multi_column():
-    """It returns table with selected column as date strings, other columns remain the same."""
+    """It returns table with selected column as date strings."""
     datetime_object_1 = datetime.date(2018, 4, 28)
     datetime_object_2 = datetime.date(2012, 11, 5)
     test_header = ["Name", "Date field"]
@@ -237,10 +217,28 @@ def test_get_integer_column_total_value():
     assert result == 1 + 2 + 3
 
 
+def test_get_integer_column_total_value_of_numeric_strings():
+    """It returns total value of column of integers as strings."""
+    test_header = ["Amounts"]
+    test_row = [["1"], ["2"], ["3"]]
+    table = Table(test_header, test_row)
+    result = table.get_column_total("Amounts")
+    assert result == 1 + 2 + 3
+
+
 def test_get_float_column_total_value():
     """It returns total value of column of floats."""
     test_header = ["Amounts"]
     test_row = [[1.2], [2.4], [3.3]]
+    table = Table(test_header, test_row)
+    result = table.get_column_total("Amounts")
+    assert result == 1.2 + 2.4 + 3.3
+
+
+def test_get_float_column_total_value_as_numeric_strings():
+    """It returns total value of floats inputted as strings."""
+    test_header = ["Amounts"]
+    test_row = [["1.2"], ["2.4"], ["3.3"]]
     table = Table(test_header, test_row)
     result = table.get_column_total("Amounts")
     assert result == 1.2 + 2.4 + 3.3

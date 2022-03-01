@@ -1,9 +1,11 @@
-"""Table object."""
-import operator
 from datetime import datetime
 
 
 class Table:
+    """Class to handle tabular data.
+    Creates dict of column widths on initialization for better printing.
+    """
+
     def __init__(self, headers, rows):
         self.cellwidths = {}
         self._headers = headers
@@ -37,7 +39,7 @@ class Table:
         return self._excluded_from_print
 
     def __str__(self):
-        """It prints each column to length of longest value in column, \
+        """It prints each column neatly to length of longest value in column, \
             i.e. column widths can differ from each other."""
         if len(self._headers) == 0 and len(self._rows) == 0:
             return "No table data."
@@ -74,7 +76,7 @@ class Table:
         """Return new table sorted by given column."""
         column_index = self._headers.index(column_name)
         return Table(
-            self.headers, sorted(self.rows, key=operator.itemgetter(column_index))
+            self.headers, sorted(self.rows, key=lambda x: float(x[column_index]))
         )
 
     def string_column_to_datetime(self, column_name):

@@ -1,3 +1,4 @@
+"""Command-line interface."""
 import click
 
 from .csv_loader import CSVLoader
@@ -14,20 +15,25 @@ PRINT_EXCLUDE = [
     "Lease End Date",
 ]
 
+# Functions that coordinate table queries for the command line.
+
 
 def file_to_table(file_path):
+    """Return table object with csv data from file."""
     csv_data = CSVLoader(file_path).data()
     table = Table(csv_data["headers"], csv_data["rows"])
     return table
 
 
 def styled_title(title):
+    """Helper that prints styled title to command line."""
     click.secho("-" * len(title), fg="green")
     click.secho(title, fg="green")
     click.secho("-" * len(title) + "\n", fg="green")
 
 
 def smallest_by_value(table, amount, column_name):
+    """Prints rows with smallest values to command line."""
     current_rent_smallest_5 = QueryHelper(table).smallest(amount, column_name)
     additional_exlude = ["Lease Start Date", "Lease Years"]
     current_rent_smallest_5.exclude_cols_from_print(PRINT_EXCLUDE + additional_exlude)
@@ -39,6 +45,8 @@ def smallest_by_value(table, amount, column_name):
 
 
 def masts_data_equals(table, value, column_name):
+    """Prints rows where mast data equals value in column,
+    and total value of those cells to command line."""
     filtered_table = table.get_rows_equal_to(column_name, value)
     total_rent = filtered_table.get_column_total("Current Rent")
 
@@ -51,6 +59,7 @@ def masts_data_equals(table, value, column_name):
 
 
 def mast_count_dict(table, column_name):
+    """Prints tenants with count of masts to command line."""
     frequency_dict = QueryHelper(table).frequency(column_name)
     title = "Count of masts by tenant."
     styled_title(title)
@@ -60,6 +69,7 @@ def mast_count_dict(table, column_name):
 
 
 def mast_data_in_date_range(table, column_name, start_date, end_date):
+    """Prints mast data where column values in date range to command line."""
     date_range_table = QueryHelper(table).dates_between(
         start_date, end_date, column_name
     )
