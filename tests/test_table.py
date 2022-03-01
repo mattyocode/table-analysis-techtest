@@ -149,6 +149,15 @@ def test_table_returns_new_table_with_same_order_when_integers_already_sorted():
     assert sorted_table.rows == [[5, 4], [1, 6]]
 
 
+def test_table_sorts_multi_digit_numbers():
+    """It returns new table object with numbers in order, sorted numerically."""
+    test_headers = ["Col 1", "Col 2"]
+    test_rows = [[5, 400], [10, 6]]
+    table = Table(test_headers, test_rows)
+    sorted_table = table.sort_by("Col 2")
+    assert sorted_table.rows == [[10, 6], [5, 400]]
+
+
 def test_table_raises_valueerror_if_sort_by_called_on_non_numerical_string():
     """It raises ValueError if string cannot be converted to float."""
     test_headers = ["Col 1", "Col 2"]
