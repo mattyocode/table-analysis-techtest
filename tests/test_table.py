@@ -111,6 +111,26 @@ def test_table_prints_with_empty_rows_array():
     assert str(table) == "Col 1|Col 2\n-----------"
 
 
+def test_get_excluded_column_indexes():
+    """It returns list of indexes of excluded columns."""
+    test_headers = ["Col 1", "Col 2"]
+    test_row = []
+    table = Table(test_headers, test_row)
+    table.exclude_cols_from_print(["Col 1"])
+    assert table.excluded_from_print == [0]
+
+
+def test_table_doesnt_print_excluded_columns():
+    """It doesn't print columns added to exclude list."""
+    test_headers = ["FirstCol", "SecondCol", "ThirdCol"]
+    test_row = [["aa", "bb", "cc"], ["dd", "ee", "ff"]]
+    table = Table(test_headers, test_row)
+    assert table.rows == [["aa", "bb", "cc"], ["dd", "ee", "ff"]]
+    table.exclude_cols_from_print(["SecondCol", "ThirdCol"])
+    excluded_values = ["SecondCol", "ThirdCol", "bb", "cc", "ee", "ff"]
+    assert not any(x in str(table) for x in excluded_values)
+
+
 def test_table_returns_new_table_sorted_by_integer_column_value():
     """It returns new table object sorted by integers (ascending) in given column."""
     test_headers = ["Col 1", "Col 2"]
@@ -228,11 +248,11 @@ def test_get_float_column_total_value():
 
 def test_throws_error_when_values_are_strings():
     """It throws error when attempting to return total value \
-        of column of strings."""
+        of column of non-numeric strings."""
     test_header = ["Amounts"]
     test_row = [["One"], ["Two"], ["Three"]]
     table = Table(test_header, test_row)
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         table.get_column_total("Amounts")
 
 
