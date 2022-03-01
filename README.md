@@ -74,7 +74,7 @@
 
 When running `poetry run table-query` (i.e. without any flags), the output is as follows:
 
-![Terminal output screengrab](https://github.com/mattyocode/images/blob/main/table-analysis-techtest/table-analysis-output-e.png)
+![Terminal output screengrab](https://github.com/mattyocode/images/blob/main/table-analysis-techtest/table-analysis-screengrab.png)
 
 ## Notes
 
