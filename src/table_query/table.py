@@ -18,7 +18,7 @@ class Table:
                 self.set_column_cell_widths(row)
 
     def set_column_cell_widths(self, cells):
-        """Iterate through array and set cellwidths dictionary to 
+        """Iterate through array and set cellwidths dictionary to
         max width of each column. Helper function for initialisation."""
         for i, cell in enumerate(cells):
             current_column_cellwidth = self.cellwidths.get(i, 0)
@@ -50,7 +50,7 @@ class Table:
         return self._excluded_from_print
 
     def __str__(self):
-        """It returns table data in grid format, with each 
+        """It returns table data in grid format, with each
         column the width of its longest cell.
         """
         if len(self._headers) == 0 and len(self._rows) == 0:
@@ -78,14 +78,12 @@ class Table:
             )
         return "\n".join(formatted)
 
-
     def sort_by(self, column_name):
         """Return new table sorted by given column of float or int."""
         column_index = self._headers.index(column_name)
         return Table(
             self.headers, sorted(self.rows, key=lambda x: float(x[column_index]))
         )
-
 
     def get_column_total(self, column_name):
         """Return total value for numerical column."""
@@ -97,9 +95,9 @@ class Table:
 
     def get_rows_equal_to(self, column_name, value):
         """Return new table object with rows matching value.
-            Using list comprehension here to meet requirements
-            and as data set is small but implementing binary
-            search would be more performant."""
+        Using list comprehension here to meet requirements
+        and as data set is small but implementing binary
+        search would be more performant."""
         column_index = self._headers.index(column_name)
         return Table(
             self._headers, [row for row in self._rows if row[column_index] == value]
@@ -124,7 +122,6 @@ class Table:
         for row in self._rows:
             row[column_index] = datetime.strptime(row[column_index], "%d %b %Y").date()
         return self
-
 
     def datetime_column_to_string(self, column_name):
         """Return table with column converted string format DD/MM/YYYY."""

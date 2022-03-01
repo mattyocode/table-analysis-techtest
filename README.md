@@ -80,6 +80,8 @@ When running `poetry run table-query` (i.e. without any flags), the output is as
 
 This was really fun to do, and I hope my solution is clear and as expected.
 
+I used TDD throughout and set up Github Actions for continuous integration with coverage early on to maintain tested and linted code.
+
 My main focus has been to create a reusable Table class that can manipulate and return tabular data (given that Pandas and data analysis libraries shouldn't be used). More complex operations on table data are undertaken by the QueryHelper class, which is directed at satisfying the output requirements of the task.
 
 I've included list comprehension in the `__str__` method, and two filtering methods of the Table class. The filtering methods are therefore not optimised but they could be refactored to use sorted input and binary search if optimisation was needed.
