@@ -232,7 +232,7 @@ def test_throws_error_when_values_are_strings():
     test_header = ["Amounts"]
     test_row = [["One"], ["Two"], ["Three"]]
     table = Table(test_header, test_row)
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         table.get_column_total("Amounts")
 
 

@@ -11,10 +11,10 @@ def file_to_table(file_path):
     return table
 
 
-def smallest_by_value(table, number, column_name):
-    current_rent_smallest_5 = QueryHelper(table).smallest(number, column_name)
+def smallest_by_value(table, amount, column_name):
+    current_rent_smallest_5 = QueryHelper(table).smallest(amount, column_name)
 
-    click.echo(f"Smallest {number} values of {column_name} in ascending order\n")
+    click.echo(f"Smallest {amount} values of {column_name} in ascending order\n")
     click.echo(current_rent_smallest_5)
 
 
@@ -36,7 +36,9 @@ def mast_count_dict(table, column_name):
 
 
 def mast_data_in_date_range(table, column_name, start_date, end_date):
-    date_range_table = QueryHelper(table).dates_between(start_date, end_date)
+    date_range_table = QueryHelper(table).dates_between(
+        start_date, end_date, column_name
+    )
 
     click.echo(
         f"Mast data where {column_name} is between {start_date} and {end_date}\n"
@@ -76,16 +78,20 @@ def main(
     """Table Query Python Developer test."""
     table = file_to_table(file_path)
 
-    if smallest_values:
-        smallest_by_value(table, number=5, column_name="Current Rent")
+    run_all = not any(
+        [smallest_values, lease_years_equal, tenant_mast_count, start_date_range]
+    )
 
-    if lease_years_equal:
-        masts_data_equals(table, value=25, column_name="Lease Years")
+    if smallest_values or run_all:
+        smallest_by_value(table, amount=5, column_name="Current Rent")
 
-    if tenant_mast_count:
+    if lease_years_equal or run_all:
+        masts_data_equals(table, value="25", column_name="Lease Years")
+
+    if tenant_mast_count or run_all:
         mast_count_dict(table, column_name="Tenant Name")
 
-    if start_date_range:
+    if start_date_range or run_all:
         mast_data_in_date_range(
             table,
             column_name="Lease Start Date",

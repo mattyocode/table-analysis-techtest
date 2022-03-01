@@ -77,7 +77,7 @@ class Table:
         total = 0
         column_index = self._headers.index(column_name)
         for row in self._rows:
-            total += row[column_index]
+            total += float(row[column_index])
         return total
 
     def get_rows_equal_to(self, column_name, value):

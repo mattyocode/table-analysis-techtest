@@ -83,7 +83,7 @@ def test_main_calls_masts_data_equals_when_flag_passed(
     )
     assert result.exit_code == 0
     instance = mock_table.return_value
-    assert instance.get_rows_equal_to.call_args == call("Lease Years", 25)
+    assert instance.get_rows_equal_to.call_args == call("Lease Years", "25")
     assert "Mast data where Lease Years is equal to 25" in result.output
 
 
@@ -125,7 +125,27 @@ def test_main_calls_mast_data_in_date_range_when_flag_passed(
     result = runner.invoke(console.main, ["--file-path=test.csv", "--start_date_range"])
     assert result.exit_code == 0
     instance = mock_queryhelper.return_value
-    assert instance.dates_between.call_args == call("01 Jun 1999", "31 Aug 2007")
+    assert instance.dates_between.call_args == call(
+        "01 Jun 1999", "31 Aug 2007", "Lease Start Date"
+    )
+    assert (
+        "Mast data where Lease Start Date is between 01 Jun 1999 and 31 Aug 2007"
+        in result.output
+    )
+
+
+def test_main_calls_all_functions_when_no_flag_passed(
+    runner,
+    test_csv_file,
+    mock_table,
+    mock_queryhelper,
+) -> None:
+    """It passes default args to QueryHelper instance."""
+    result = runner.invoke(console.main, ["--file-path=test.csv"])
+    assert result.exit_code == 0
+    assert "Smallest 5 values of Current Rent in ascending order" in result.output
+    assert "Mast data where Lease Years is equal to 25" in result.output
+    assert "Count of masts by tenant" in result.output
     assert (
         "Mast data where Lease Start Date is between 01 Jun 1999 and 31 Aug 2007"
         in result.output
