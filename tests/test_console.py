@@ -77,7 +77,7 @@ def test_main_calls_masts_data_equals_when_flag_passed(
     test_csv_file,
     mock_table,
 ) -> None:
-    """It passes file path to csv loader instance."""
+    """It passes default args to Table instance.."""
     result = runner.invoke(
         console.main, ["--file-path=test.csv", "--lease-years-equal"]
     )
@@ -92,7 +92,7 @@ def test_main_calls_tenant_mast_count_when_flag_passed(
     test_csv_file,
     mock_queryhelper,
 ) -> None:
-    """It passes file path to csv loader instance."""
+    """It passes default args to QueryHelper instance."""
     result = runner.invoke(
         console.main, ["--file-path=test.csv", "--tenant-mast-count"]
     )
@@ -100,3 +100,33 @@ def test_main_calls_tenant_mast_count_when_flag_passed(
     instance = mock_queryhelper.return_value
     assert instance.frequency.call_args == call("Tenant Name")
     assert "Count of masts by tenant" in result.output
+
+
+def test_prints_dict_when_it_has_values(
+    runner,
+    test_csv_file,
+    mock_queryhelper,
+) -> None:
+    """It prints frequency dict to console."""
+    mock_queryhelper.return_value.frequency.return_value = {"Tenant": 3}
+    result = runner.invoke(
+        console.main, ["--file-path=test.csv", "--tenant-mast-count"]
+    )
+    assert result.exit_code == 0
+    assert "Tenant: 3 masts" in result.output
+
+
+def test_main_calls_mast_data_in_date_range_when_flag_passed(
+    runner,
+    test_csv_file,
+    mock_queryhelper,
+) -> None:
+    """It passes default args to QueryHelper instance."""
+    result = runner.invoke(console.main, ["--file-path=test.csv", "--start_date_range"])
+    assert result.exit_code == 0
+    instance = mock_queryhelper.return_value
+    assert instance.dates_between.call_args == call("01 Jun 1999", "31 Aug 2007")
+    assert (
+        "Mast data where Lease Start Date is between 01 Jun 1999 and 31 Aug 2007"
+        in result.output
+    )

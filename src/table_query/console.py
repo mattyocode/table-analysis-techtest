@@ -35,6 +35,15 @@ def mast_count_dict(table, column_name):
         click.echo(f"{k}: {v} masts\n")
 
 
+def mast_data_in_date_range(table, column_name, start_date, end_date):
+    date_range_table = QueryHelper(table).dates_between(start_date, end_date)
+
+    click.echo(
+        f"Mast data where {column_name} is between {start_date} and {end_date}\n"
+    )
+    click.echo(date_range_table)
+
+
 @click.command()
 @click.option(
     "--file-path",
@@ -55,8 +64,16 @@ def mast_count_dict(table, column_name):
     is_flag=True,
     help="Get mast count by tenant.",
 )
-def main(file_path, smallest_values, lease_years_equal, tenant_mast_count):
-    """Table Analysis Python Developer test."""
+@click.option(
+    "--start_date_range",
+    "-s",
+    is_flag=True,
+    help="Get mast data within start date range.",
+)
+def main(
+    file_path, smallest_values, lease_years_equal, tenant_mast_count, start_date_range
+):
+    """Table Query Python Developer test."""
     table = file_to_table(file_path)
 
     if smallest_values:
@@ -68,4 +85,12 @@ def main(file_path, smallest_values, lease_years_equal, tenant_mast_count):
     if tenant_mast_count:
         mast_count_dict(table, column_name="Tenant Name")
 
-    click.echo("Hello world!")
+    if start_date_range:
+        mast_data_in_date_range(
+            table,
+            column_name="Lease Start Date",
+            start_date="01 Jun 1999",
+            end_date="31 Aug 2007",
+        )
+
+    click.echo("Report finished!")
