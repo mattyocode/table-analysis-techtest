@@ -5,7 +5,6 @@ import pytest
 from table_query.query_helper import QueryHelper
 from table_query.table import Table
 
-
 TEST_TABLE_HEADERS = ["Col 1", "Col 2", "Col 3"]
 TEST_TABLE_ROWS = [
     ["a", 1, 42.4],

@@ -1,13 +1,14 @@
 import click
 
 from .csv_loader import CSVLoader
-from .table import Table
 from .query_helper import QueryHelper
+from .table import Table
+
 
 def file_to_table(file_path):
-	csv_data = CSVLoader(file_path).data()
-	table = Table(csv_data["headers"], csv_data["rows"])
-	return table
+    csv_data = CSVLoader(file_path).data()
+    table = Table(csv_data["headers"], csv_data["rows"])
+    return table
 
 
 def smallest_by_value(table, number, column_name):
@@ -27,17 +28,27 @@ def masts_data_equals(table, value, column_name):
 
 
 @click.command()
-@click.option("--file-path", "-f", type=click.Path(exists=True), default="fixtures/Python Developer Test Dataset.csv")
+@click.option(
+    "--file-path",
+    "-f",
+    type=click.Path(exists=True),
+    default="fixtures/Python Developer Test Dataset.csv",
+)
 @click.option("--smallest-values", "-s", is_flag=True, help="Get smallest values only.")
-@click.option("--lease-years-equal", "-l", is_flag=True, help="Get lease years equal to value only.")
+@click.option(
+    "--lease-years-equal",
+    "-l",
+    is_flag=True,
+    help="Get lease years equal to value only.",
+)
 def main(file_path, smallest_values, lease_years_equal):
     """Table Analysis Python Developer test."""
     table = file_to_table(file_path)
 
     if smallest_values:
-        smallest_by_value(table, number = 5, column_name = "Current Rent")
+        smallest_by_value(table, number=5, column_name="Current Rent")
 
     if lease_years_equal:
-        masts_data_equals(table, value = 25, column_name = "Lease Years")
+        masts_data_equals(table, value=25, column_name="Lease Years")
 
     click.echo("Hello world!")
