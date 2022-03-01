@@ -80,10 +80,14 @@ When running `poetry run table-query` (i.e. without any flags), the output is as
 
 This was really fun to do, and I hope my solution is clear and as expected.
 
-My main focus has been to create a reusable Table class that can manipulate and return tabular data (as needed). More complex operations on table data are undertaken by the QueryHelper class, which is directed at satisfying the output requirements of the task.
+My main focus has been to create a reusable Table class that can manipulate and return tabular data (given that Pandas and data analysis libraries shouldn't be used). More complex operations on table data are undertaken by the QueryHelper class, which is directed at satisfying the output requirements of the task.
 
 I've included list comprehension in the `__str__` method, and two filtering methods of the Table class. The filtering methods are therefore not optimised but they could be refactored to use sorted input and binary search if optimisation was needed.
 
-Test coverage is at 100%, although there are edge cases that aren't covered. There are also occasions where methods expect a certain type and currently the happy path is assumed – these could be covered with type checking and validation, but I've assumed (hopefully correctly) that's beyond the scope of this task.
+Test coverage is at 100%, although there are certainly some edge cases that aren't covered. There are also occasions where methods expect a certain type and currently the happy path is assumed – these could be caught with type checking and error raising, but I've assumed (hopefully correctly) that's beyond the scope of this task.
+
+In some instances, I wasn't entirely sure on the required output - specifically whether things like 'list of 5 items' referred to a whole row, or the individual value itself. Hoping to make the data as clear as possible, I've returned results in tabular format with headers, and excluded certain columns for the outputs where full data wasn't specified, mostly to make sure the output is legible in the terminal on narrower screens.
+
+Thanks!
 
 :grin:
