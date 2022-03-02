@@ -16,6 +16,7 @@
    ```bash
    cd projects
    git clone <repo-tag>
+   cd table-analysis-techtest
    ```
 
 2. Install dependencies
